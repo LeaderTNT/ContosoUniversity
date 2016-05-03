@@ -5,38 +5,34 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ContosoUniversity.Models
 {
-    public class Student
+    public class Instructor
     {
         public int ID { get; set; }
 
         [Required]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z''-'\s]*$", ErrorMessage ="Invalid Name")]
-        [MinLength(2, ErrorMessage = "Name should be at least two characters")]
-        [MaxLength(50)]
         [Display(Name = "Last Name")]
+        [StringLength(50)]
         public string LastName { get; set; }
 
         [Required]
         [Column("FirstName")]
-        [StringLength(50, MinimumLength = 2, ErrorMessage = "Name should be at least two characters")]
-        [Display(Name = "First and Middle Name")]
+        [Display(Name = "First Name")]
+        [StringLength(50)]
         public string FirstMidName { get; set; }
 
-        [Display(Name = "Enrollment Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTimeOffset EnrollmentDate { get; set; }
+        [Display(Name = "Hire Date")]
+        public DateTimeOffset HireDate { get; set; }
 
         [Display(Name = "Full Name")]
         public string FullName
         {
-            get
-            {
-                return LastName + ", " + FirstMidName;
-            }
+            get { return LastName + ", " + FirstMidName; }
         }
 
+        public virtual ICollection<Course> Courses { get; set; }
 
-        public virtual ICollection<Enrollment> Enrollments { get; set; }
+        public virtual OfficeAssignment OfficeAssignment { get; set; }
     }
 }
